@@ -88,49 +88,40 @@ class IndexPage extends React.Component {
       },
     ];
 
+    function onPageChange(current) {
+      console.log(current)
+    }
+
     return (
       <MuiThemeProvider>
         <div>
-          <AppBar title="Title" />
-          <Tabs
-            onChange={this.indexOnChange}
-            value={this.state.index}
-          >
-            <Tab label="Tab 1" value={0} />
-            <Tab label="Tab 2" value={1} />
-            <Tab label="Tab 3" value={2} />
-          </Tabs>
+          <div className={styles.fixedAppBar}>
+            <AppBar title="Title..." />
+            <Tabs
+              onChange={this.indexOnChange}
+              value={this.state.index}
+            >
+              <Tab label="Tab 1" value={0} />
+              <Tab label="Tab 2" value={1} />
+              <Tab label="Tab 3" value={2} />
+            </Tabs>
+          </div>
 
-          <div>
+          <div className={styles.tabContent}>
             <SwipeableViews
               index={this.state.index}
               onChangeIndex={this.indexOnChange}
             >
               <div style={{height: '100%', width: '100%'}}>
-                <CommentList comments={comments}/>
-                <BottomNavigation
-                  selectedIndex={this.state.selectedIndex}
-                  style={{}}
-                >
-                  <BottomNavigationItem
-                    label="Nav 1"
-                    icon={recentsIcon}
-                    onTouchTap={()=>{this.select(0)}}
-                  />
-                  <BottomNavigationItem
-                    label="Nav 2"
-                    icon={favoritesIcon}
-                    onTouchTap={()=>{this.select(1)}}
-                  />
-                  <BottomNavigationItem
-                    label="Nav 3"
-                    icon={nearbyIcon}
-                    onTouchTap={()=>{this.select(2)}}
-                  />
-                </BottomNavigation>
+                <CommentDynamicList
+                  comments={comments}
+                  pagination={{total: 100, current: 1}}
+                  onPageChange={(current)=>{console.log(current)}}
+                />
+
               </div>
               <div>
-                <CommentDynamicList />
+                <CommentList comments={comments}/>
               </div>
               <div>
                 <p>Tab 3</p>

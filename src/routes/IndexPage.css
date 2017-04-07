@@ -1,4 +1,15 @@
 
+.fixedAppBar {
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  top: 0;
+}
+
+.tabContent {
+  margin-top: 112px;
+}
+
 .normal {
   font-family: Georgia, sans-serif;
   margin-top: 3em;
