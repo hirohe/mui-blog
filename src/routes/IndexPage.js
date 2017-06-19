@@ -1,17 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import FontIcon from 'material-ui/FontIcon';
-import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
-import { Tabs, Tab } from 'material-ui/Tabs';
-import IconLocationOn from 'material-ui/svg-icons/communication/location-on';
-import MenuIcon from 'material-ui/svg-icons/navigation/menu'
-import SwipeableViews from 'react-swipeable-views';
 import AppBar from 'material-ui/AppBar';
 import Snackbar from 'material-ui/Snackbar';
 
-import CommentList from '../components/CommentList/CommentList';
-import CommentDynamicList from '../components/CommentList/CommentDynamicList';
 import MyDrawer from '../components/MyDrawer';
 
 import styles from './IndexPage.css';
