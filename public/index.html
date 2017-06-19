@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1, minimum-scale=1">
   <title>Dva Demo</title>
   <script>
     (function (baseFontSize, fontscale) {
-      console.log(baseFontSize, fontscale);
       var _baseFontSize = baseFontSize || 100;
       var _fontscale = fontscale || 1;
       var win = window;
@@ -21,20 +20,9 @@
         // 如果非iOS, 非Android4.3以上, 非UC内核, 就不执行高清, dpr设为1;
         dpr = 1;
       }
-      var scale = (1 / dpr);
-
-      scale = 1;
-
-      var metaEl = doc.querySelector('meta[name="viewport"]');
-      if (!metaEl) {
-        metaEl = doc.createElement('meta');
-        metaEl.setAttribute('name', 'viewport');
-        doc.head.appendChild(metaEl);
-      }
-      metaEl.setAttribute('content', 'width=device-width,user-scalable=no,initial-scale=' + scale + ',maximum-scale=' + scale + ',minimum-scale=' + scale);
-      doc.documentElement.style.fontSize = _baseFontSize / 2 * dpr * _fontscale + 'px';
+      //doc.documentElement.style.fontSize = _baseFontSize / 2 * dpr * _fontscale + 'px';
       window.viewportScale = dpr;
-    })(50, 1);
+    })(24, 1);
   </script>
   <link rel="stylesheet" href="index.css" />
 </head>

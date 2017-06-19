@@ -5,25 +5,27 @@ import FontIcon from 'material-ui/FontIcon';
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import IconLocationOn from 'material-ui/svg-icons/communication/location-on';
+import MenuIcon from 'material-ui/svg-icons/navigation/menu'
 import SwipeableViews from 'react-swipeable-views';
 import AppBar from 'material-ui/AppBar';
+import Snackbar from 'material-ui/Snackbar';
 
 import CommentList from '../components/CommentList/CommentList';
 import CommentDynamicList from '../components/CommentList/CommentDynamicList';
+import MyDrawer from '../components/MyDrawer';
 
 import styles from './IndexPage.css';
-
-const recentsIcon = <FontIcon className="material-icons">restore</FontIcon>;
-const favoritesIcon = <FontIcon className="material-icons">favorite</FontIcon>;
-const nearbyIcon = <IconLocationOn />;
+import commonStyle from './CommonStyle.less';
 
 class IndexPage extends React.Component {
   constructor(props) {
     super(props);
 
+    this.dispatch = props.dispatch;
     this.state = {
       index: 0,
       selectedIndex: 0,
+      drawVisible: false,
     }
   }
 
@@ -33,102 +35,37 @@ class IndexPage extends React.Component {
 
   select = (index) => this.setState({selectedIndex: index});
 
+  hiddenSnackbar = () => {
+    this.dispatch({type: 'snackbar/hidden'})
+  };
+
+  openDrawer = () => {
+    this.setState({drawVisible: true});
+  };
+
   render() {
 
-    const comments = [
-      {
-        username: 'Hirohe',
-        hash: '3ec22854fb8d2a44c9569cc5b27afddd',
-        comment: 'asdas fdajkodif asdhjo hjas w dasdji asdhac asdo j asdaso  sadio asdoic ido asdjo cjiojiojo as',
-        date: new Date('2017-01-02')
-      },
-      {
-        username: 'Hirohe',
-        hash: '8d89c3087cc6cb98793ab7c0f5658c56',
-        comment: 'asdas fdajkodif asdhjo hjas w dasdji asdhac asdo j asdaso  sadio asdoic ido asdjo cjiojiojo as',
-        date: new Date(),
-        referenceId: 123
-      },
-      {
-        username: 'Hirohe',
-        hash: '3ec22854fb8d2a44c9569cc5b27afddd',
-        comment: 'asdas fdajkodif asdhjo hjas w dasdji asdhac asdo j asdaso  sadio asdoic ido asdjo cjiojiojo as',
-        date: new Date()
-      },
-      {
-        username: 'Hirohe',
-        hash: '3ec22854fb8d2a44c9569cc5b27afddd',
-        comment: 'asdas fdajkodif asdhjo hjas w dasdji asdhac asdo j asdaso  sadio asdoic ido asdjo cjiojiojo as',
-        date: new Date()
-      },
-      {
-        username: 'Hirohe',
-        hash: '3ec22854fb8d2a44c9569cc5b27afddd',
-        comment: 'asdas fdajkodif asdhjo hjas w dasdji asdhac asdo j asdaso  sadio asdoic ido asdjo cjiojiojo as',
-        date: new Date('2017-01-02')
-      },
-      {
-        username: 'Hirohe',
-        hash: '8d89c3087cc6cb98793ab7c0f5658c56',
-        comment: 'asdas fdajkodif asdhjo hjas w dasdji asdhac asdo j asdaso  sadio asdoic ido asdjo cjiojiojo as',
-        date: new Date(),
-        referenceId: 123
-      },
-      {
-        username: 'Hirohe',
-        hash: '3ec22854fb8d2a44c9569cc5b27afddd',
-        comment: 'asdas fdajkodif asdhjo hjas w dasdji asdhac asdo j asdaso  sadio asdoic ido asdjo cjiojiojo as',
-        date: new Date()
-      },
-      {
-        username: 'Hirohe',
-        hash: '3ec22854fb8d2a44c9569cc5b27afddd',
-        comment: 'asdas fdajkodif asdhjo hjas w dasdji asdhac asdo j asdaso  sadio asdoic ido asdjo cjiojiojo as',
-        date: new Date()
-      },
-    ];
-
-    function onPageChange(current) {
-      console.log(current)
-    }
+    const { snackbar, children } = this.props;
 
     return (
       <MuiThemeProvider>
         <div>
-          <div className={styles.fixedAppBar}>
-            <AppBar title="Title..." />
-            <Tabs
-              onChange={this.indexOnChange}
-              value={this.state.index}
-            >
-              <Tab label="Tab 1" value={0} />
-              <Tab label="Tab 2" value={1} />
-              <Tab label="Tab 3" value={2} />
-            </Tabs>
+          <div className={commonStyle.fixedAppBar}>
+            <AppBar onLeftIconButtonTouchTap={this.openDrawer} title="Title..." />
           </div>
-
           <div className={styles.tabContent}>
-            <SwipeableViews
-              index={this.state.index}
-              onChangeIndex={this.indexOnChange}
-            >
-              <div style={{height: '100%', width: '100%'}}>
-                <CommentDynamicList
-                  comments={comments}
-                  pagination={{total: 100, current: 1}}
-                  onPageChange={(current)=>{console.log(current)}}
-                />
-
-              </div>
-              <div>
-                <CommentList comments={comments}/>
-              </div>
-              <div>
-                <p>Tab 3</p>
-              </div>
-            </SwipeableViews>
+            {children}
           </div>
-
+          <MyDrawer
+            open={this.state.drawVisible}
+            onRequestChange={drawVisible => this.setState({ drawVisible })}
+          />
+          <Snackbar
+            message={snackbar.message}
+            open={snackbar.open}
+            autoHideDuration={snackbar.duration}
+            onRequestClose={this.hiddenSnackbar}
+          />
         </div>
       </MuiThemeProvider>
     );
@@ -136,7 +73,8 @@ class IndexPage extends React.Component {
 
 }
 
-IndexPage.propTypes = {
-};
+function mapStateToProps({ snackbar }) {
+  return { snackbar }
+}
 
-export default connect()(IndexPage);
+export default connect(mapStateToProps)(IndexPage);

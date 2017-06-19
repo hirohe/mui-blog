@@ -62,6 +62,10 @@ const CommentItem = ({
     }
   }
 
+  function referenceOnClick(e) {
+    console.log(e);
+  }
+
   let dateStr;
   const now = Date.now();
   if (now - date.valueOf() < 1000 * 60) {
@@ -86,7 +90,7 @@ const CommentItem = ({
 
   const secondaryText = (
     <span ref={(c => secondaryTextComponent = c)}>
-      {typeof referenceId === 'undefined'?null:<a style={{color: 'blue'}} onClick={()=>{console.log('click')}}>{`<<${referenceId} `}</a>}
+      {typeof referenceId === 'undefined'?null:<a style={{color: 'blue'}} onClick={referenceOnClick}>{`<<${referenceId} `}</a>}
       {comment}
     </span>
   );

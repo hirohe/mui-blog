@@ -1,13 +1,5 @@
-
-.fixedAppBar {
-  position: fixed;
-  width: 100%;
-  z-index: 100;
-  top: 0;
-}
-
 .tabContent {
-  margin-top: 112px;
+  margin-top: 64px;
 }
 
 .normal {
