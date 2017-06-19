@@ -97,7 +97,6 @@ const CommentItem = ({
 
   return (
     <ListItem
-      id="hey"
       leftAvatar={<Avatar icon={avatarDiv}/>}
       rightIconButton={rightIconMenu}
       primaryText={primaryText}
