@@ -18,6 +18,7 @@ const app = dva({
 
 // 3. Model
 app.model(require('./models/Article'));
+app.model(require('./models/Comment'));
 app.model(require('./models/Snackbar'));
 
 // 4. Router

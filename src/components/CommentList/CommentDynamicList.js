@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'dva';
 import { List } from 'material-ui/List';
+import Subheader from 'material-ui/Subheader';
 import FlatButton from 'material-ui/FlatButton';
 import CommentItem from './CommentItem';
 
@@ -9,42 +11,15 @@ class CommentDynamicList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      comments: [
-        {
-          username: 'Hirohe',
-          hash: '3ec22854fb8d2a44c9569cc5b27afddd',
-          comment: 'asdas fdajkodif asdhjo hjas w dasdji asdhac asdo j asdaso  sadio asdoic ido asdjo cjiojiojo as',
-          date: new Date()
-        },
-        {
-          username: 'Hirohe',
-          hash: '3ec22854fb8d2a44c9569cc5b27afddd',
-          comment: 'asdas fdajkodif asdhjo hjas w dasdji asdhac asdo j asdaso  sadio asdoic ido asdjo cjiojiojo as',
-          date: new Date()
-        },
-        {
-          username: 'Hirohe',
-          hash: '3ec22854fb8d2a44c9569cc5b27afddd',
-          comment: 'asdas fdajkodif asdhjo hjas w dasdji asdhac asdo j asdaso  sadio asdoic ido asdjo cjiojiojo as',
-          date: new Date()
-        },
-        {
-          username: 'Hirohe',
-          hash: '3ec22854fb8d2a44c9569cc5b27afddd',
-          comment: 'asdas fdajkodif asdhjo hjas w dasdji asdhac asdo j asdaso  sadio asdoic ido asdjo cjiojiojo as',
-          date: new Date()
-        },
-      ],
-
-      total: props.pagination.total,
-      current: 1,
-      pageSize: 10
-    };
+    this.dispatch = props.dispatch;
+    this.articleId = props.articleId;
   }
 
-  componentDidMount() {
-    //this.fetchComments();
+  componentWillMount() {
+    this.dispatch({
+      type: 'comment/getComments',
+      payload: { id: this.articleId, page: 1 }
+    })
   }
 
   prevPage = () => {
@@ -59,36 +34,35 @@ class CommentDynamicList extends React.Component {
     this.props.onPageChange(this.state.current);
   };
 
-  isLastPage = () => {
-    return this.state.current * this.state.pageSize >= this.state.total;
-  };
-
   render() {
-    return(
+
+    const { comments, current, total, pageSize } = this.props.comment;
+
+    return (
       <div>
         <List>
+          <Subheader>Comments</Subheader>
           {
-            this.props.comments.map((comment, i) =>
-              <CommentItem comment={comment} key={i}/>
+            comments.map((comment, i) =>
+              <CommentItem comment={comment} key={i} />
             )
           }
         </List>
-        {/*<FlatButton className={styles.btnMore}>more</FlatButton>*/}
         <div className={styles.pagination}>
           <FlatButton
-            label='previous'
+            label="previous"
             onClick={this.prevPage}
-            disabled={this.state.current == 1}
+            disabled={current === 1}
           />
-          <span className={styles.pageInfo}>{`${this.state.current}/${this.state.total / this.state.pageSize}`}</span>
+          <span className={styles.pageInfo}>{`${current}/${Math.ceil(total / pageSize)}`}</span>
           <FlatButton
-            label='next'
+            label="next"
             onClick={this.nextPage}
-            disabled={this.isLastPage()}
+            disabled={current * pageSize >= total}
           />
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -97,4 +71,8 @@ CommentDynamicList.propTypes = {
   onPageChange: PropTypes.func,
 };
 
-export default CommentDynamicList;
+function mapStateToProps({ comment }) {
+  return { comment }
+}
+
+export default connect(mapStateToProps)(CommentDynamicList);

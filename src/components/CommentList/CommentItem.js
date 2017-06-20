@@ -38,13 +38,15 @@ const rightIconMenu = (
 * */
 const CommentItem = ({
   comment: {
-    username,
-    hash,
+    name,
+    email_hash,
     comment,
-    date,
-    referenceId,
+    created_at,
+    reference_id,
   }
 }) => {
+
+  created_at = new Date(created_at);
 
   let secondaryTextComponent;
 
@@ -68,29 +70,29 @@ const CommentItem = ({
 
   let dateStr;
   const now = Date.now();
-  if (now - date.valueOf() < 1000 * 60) {
+  if (now - created_at.valueOf() < 1000 * 60) {
     dateStr = '刚刚';
   } else {
-    dateStr = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    dateStr = `${created_at.getFullYear()}-${created_at.getMonth() + 1}-${created_at.getDate()} ${created_at.getHours()}:${created_at.getMinutes()}:${created_at.getSeconds()}`;
   }
 
   const primaryText = (
     <span>
-      {username}
+      {name}
       <span className={styles.date}>
         {'回复时间 : ' + dateStr}
       </span>
     </span>
   );
 
-  const avatarSVG = jdenticon.toSvg(hash, 40);
+  const avatarSVG = jdenticon.toSvg(email_hash, 40);
   const avatarDiv = (
     <div className={styles.avatarDiv} dangerouslySetInnerHTML={{__html: avatarSVG}} />
   );
 
   const secondaryText = (
     <span ref={(c => secondaryTextComponent = c)}>
-      {typeof referenceId === 'undefined'?null:<a style={{color: 'blue'}} onClick={referenceOnClick}>{`<<${referenceId} `}</a>}
+      {reference_id?<a style={{color: 'blue'}} onClick={referenceOnClick}>{`<<${reference_id} `}</a>:null}
       {comment}
     </span>
   );

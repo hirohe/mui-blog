@@ -1,4 +1,4 @@
-import { articles, article } from '../services/Article';
+import { articles, article, articleComments } from '../services/Article';
 
 export default {
 
@@ -7,6 +7,7 @@ export default {
   state: {
     article: {},
     articleList: [],
+    comments: []
   },
 
   effects: {
@@ -25,12 +26,25 @@ export default {
           payload: { article: data }
         })
       }
+    },
+    *getComments({payload}, {put, call, select}) {
+      const { data } = yield call(articleComments, payload.id);
+      if (data) {
+        console.log(data);
+        yield put({
+          type: 'updateComments',
+          payload: { comments: data }
+        })
+      }
     }
   },
 
   reducers: {
     updateArticle(state, action) {
       return { ...state, article: action.payload.article }
+    },
+    updateComments(state, action) {
+      return { ...state, comments: action.payload.comments }
     }
   }
 

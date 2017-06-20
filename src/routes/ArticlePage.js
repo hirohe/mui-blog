@@ -121,6 +121,7 @@ class ArticlePage extends React.Component {
               onSend={()=>{}}
             />
             <CommentDynamicList
+              articleId={this.articleId}
               comments={comments}
               pagination={{total: 100, current: 1}}
             />
