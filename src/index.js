@@ -3,6 +3,8 @@ import { useRouterHistory } from 'dva/router';
 import { createHashHistory } from 'history';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import './index.css';
+//hightlight css
+import 'highlightjs/styles/monokai.css';
 
 injectTapEventPlugin();
 

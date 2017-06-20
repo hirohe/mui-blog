@@ -3,8 +3,6 @@ import Drawer from 'material-ui/Drawer';
 
 const MyDrawer = ({ open, onRequestChange }) => {
 
-  console.log(open)
-
   return (
     <Drawer
       docked={false}

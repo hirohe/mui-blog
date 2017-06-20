@@ -1,9 +1,15 @@
 import React from 'react';
 import { connect } from 'dva';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AppBar from 'material-ui/AppBar';
-import ArticleList from '../components/ArticleList/ArticleList';
+import Paper from 'material-ui/Paper';
+import IconButton from 'material-ui/IconButton';
+import FavoriteIcon from 'material-ui/svg-icons/action/favorite';
+import ShareIcon from 'material-ui/svg-icons/social/share';
+import MessageIcon from 'material-ui/svg-icons/communication/message';
+
 import CommentDynamicList from '../components/CommentList/CommentDynamicList';
+import CommentEditor from '../components/CommentEditor/CommentEditor';
+import ArticleMarkdown from '../components/Article/ArticleMarkdown';
 
 import styles from './ArticlePage.less';
 import commonStyle from './CommonStyle.less';
@@ -90,16 +96,61 @@ class ArticlePage extends React.Component {
       },
     ];
 
+    const articleMD = `# Live demo
+
+Changes are automatically rendered as you type.
+
+* Follows the [CommonMark](http://commonmark.org/) spec
+* Renders actual, "native" React DOM elements
+* Allows you to escape or skip HTML (try toggling the checkboxes above)
+* If you escape or skip the HTML, no dangerouslySetInnerHTML is used! Yay!
+
+## HTML block below
+
+<blockquote>
+    This blockquote will change based on the HTML settings above.
+</blockquote>
+
+## How about some code?
+\`\`\`js
+var React = require('react');
+var Markdown = require('react-markdown');
+
+React.render();
+\`\`\`
+
+Pretty neat, eh?
+![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
+## More info?
+
+Read usage information and more on [GitHub](//github.com/rexxars/react-markdown)
+
+---------------
+
+A component by [VaffelNinja](http://vaffel.ninja) / Espen Hovlandsdal    
+    `;
+
     return (
       <MuiThemeProvider>
         <div>
-          {/*<div className={commonStyle.fixedAppBar}>
-            <AppBar title="Article"/>
-          </div>*/}
           <div className={styles.articleContent} style={{ height: window.innerHeight - 64 }}>
-            <div className={commonStyle.headTitle}>hello</div>
-            <ArticleList articleList={articleList} pagination={{ current: 1, total: 11, onChange: (page, pageSize) => console.log(page, pageSize) }}/>
+            <Paper className={styles.paper}>
+              <ArticleMarkdown content={articleMD}/>
+              {/*article info*/}
+              <div className={styles.info}>
+                <span>Author: hirohe</span><br/>
+                <span>Publish date: 2017-06-17</span><br/>
+                <span>Likes: 0</span>
+              </div>
+              {/*article action*/}
+              <div className={styles.action}>
+                <IconButton><ShareIcon/></IconButton>
+                <IconButton><FavoriteIcon/>123</IconButton>
+                <IconButton><MessageIcon/></IconButton>
+              </div>
+            </Paper>
             <CommentDynamicList comments={comments} pagination={{total: 100, current: 1}} />
+            <CommentEditor/>
           </div>
         </div>
       </MuiThemeProvider>
