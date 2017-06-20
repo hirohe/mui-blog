@@ -12,27 +12,36 @@ class CommentEditor extends React.Component {
     super(props);
 
     this.state = {
-      active: false
+      active: false,
+      message: '',
     }
   }
 
   textFieldOnClick = () => {
-    this.setState({active: true})
+    this.props.onActiveChange(true)
   };
 
   maskOnClick = () => {
-    this.setState({active: false})
+    this.props.onActiveChange(false)
+  };
+
+  sendOnClick = () => {
+    this.props.onSend()
   };
 
   render() {
+
+    const active = this.props.active;
+
     return (
       <div>
-        {this.state.active?<div className={styles.mask} onClick={this.maskOnClick}/>:null}
+        {active?<div className={styles.mask} onClick={this.maskOnClick}/>:null}
         <div
-          className={this.state.active?styles.editorActive:styles.editor}
-          style={{width: this.state.active?(window.innerWidth - 20):null}}
+          className={active?styles.editorActive:styles.editor}
+          style={{width: active?(window.innerWidth - 20):null}}
         >
           <TextField
+            value={this.state.message}
             className={styles.textField}
             hintText="write your comment here"
             multiLine={true}
@@ -40,7 +49,7 @@ class CommentEditor extends React.Component {
             rowsMax={4}
             onClick={this.textFieldOnClick}
           />
-          <FloatingActionButton mini className={styles.sendBtn}>
+          <FloatingActionButton mini className={styles.sendBtn} onTouchTap={this.sendOnClick}>
             <SendIcon/>
           </FloatingActionButton>
         </div>

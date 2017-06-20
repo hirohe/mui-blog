@@ -5,6 +5,9 @@ import CodeBlock from './CodeBlock';
 import styles from './ArticleMarkdown.less';
 
 const Article = ({ content, htmlMode }) => {
+
+  content = content || '';
+
   return (
     <div className={styles.article}>
       <div className={styles.header}>

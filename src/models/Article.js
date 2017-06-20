@@ -1,4 +1,4 @@
-import { articles } from '../services/Article';
+import { articles, article } from '../services/Article';
 
 export default {
 
@@ -15,11 +15,23 @@ export default {
       if (data) {
         console.log(data)
       }
+    },
+    *getArticle({payload}, {put, call, select}) {
+      const { data } = yield call(article, payload.id);
+      if (data) {
+        console.log(data);
+        yield put({
+          type: 'updateArticle',
+          payload: { article: data }
+        })
+      }
     }
   },
 
   reducers: {
-
+    updateArticle(state, action) {
+      return { ...state, article: action.payload.article }
+    }
   }
 
 }

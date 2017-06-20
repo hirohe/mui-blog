@@ -20,28 +20,28 @@ class ArticlePage extends React.Component {
 
     this.dispatch = props.dispatch;
     this.articleId = props.routeParams.id;
+
+    this.state = {
+      commentActive: false
+    };
   }
 
   componentWillMount() {
-
+    this.dispatch({
+      type: 'article/getArticle',
+      payload: { id: this.articleId }
+    })
   }
+
+  onCommentEditorActiveChange = (commentActive) => {
+    this.setState({commentActive})
+  };
 
   render() {
 
-    const article = {
-      id: 1,
-      title: 'title',
-      subtitle: 'asdasd',
-      picUrl: 'http://design.1sters.com/material_design/material-design/images/materialdesign-goals-landingimage_large_mdpi.png',
-      content: 'asdasd asda asdasd fadsf',
-      likes: 1,
-    };
+    const { article } = this.props.article;
 
-    const articleList = [
-      article,
-      article,
-      article
-    ];
+    const createDate = new Date(article.created_at);
 
     const comments = [
       {
@@ -96,61 +96,34 @@ class ArticlePage extends React.Component {
       },
     ];
 
-    const articleMD = `# Live demo
-
-Changes are automatically rendered as you type.
-
-* Follows the [CommonMark](http://commonmark.org/) spec
-* Renders actual, "native" React DOM elements
-* Allows you to escape or skip HTML (try toggling the checkboxes above)
-* If you escape or skip the HTML, no dangerouslySetInnerHTML is used! Yay!
-
-## HTML block below
-
-<blockquote>
-    This blockquote will change based on the HTML settings above.
-</blockquote>
-
-## How about some code?
-\`\`\`js
-var React = require('react');
-var Markdown = require('react-markdown');
-
-React.render();
-\`\`\`
-
-Pretty neat, eh?
-![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
-## More info?
-
-Read usage information and more on [GitHub](//github.com/rexxars/react-markdown)
-
----------------
-
-A component by [VaffelNinja](http://vaffel.ninja) / Espen Hovlandsdal    
-    `;
-
     return (
       <MuiThemeProvider>
         <div>
           <div className={styles.articleContent} style={{ height: window.innerHeight - 64 }}>
             <Paper className={styles.paper}>
-              <ArticleMarkdown content={articleMD}/>
+              <ArticleMarkdown content={article.content}/>
               {/*article info*/}
               <div className={styles.info}>
-                <span>Author: hirohe</span><br/>
-                <span>Publish date: 2017-06-17</span><br/>
-                <span>Likes: 0</span>
+                <span>Author: {article.author}</span><br/>
+                <span>Publish date: {`${createDate.getFullYear()}-${createDate.getMonth() + 1}-${createDate.getDate()}`}</span><br/>
+                <span>Likes: {article.likes}</span>
               </div>
               {/*article action*/}
               <div className={styles.action}>
                 <IconButton><ShareIcon/></IconButton>
-                <IconButton><FavoriteIcon/>123</IconButton>
+                <IconButton><FavoriteIcon/></IconButton>
                 <IconButton><MessageIcon/></IconButton>
               </div>
             </Paper>
-            <CommentEditor/>
-            <CommentDynamicList comments={comments} pagination={{total: 100, current: 1}} />
+            <CommentEditor
+              active={this.state.commentActive}
+              onActiveChange={this.onCommentEditorActiveChange}
+              onSend={()=>{}}
+            />
+            <CommentDynamicList
+              comments={comments}
+              pagination={{total: 100, current: 1}}
+            />
           </div>
         </div>
       </MuiThemeProvider>
