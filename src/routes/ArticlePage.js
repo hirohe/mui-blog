@@ -149,8 +149,8 @@ A component by [VaffelNinja](http://vaffel.ninja) / Espen Hovlandsdal
                 <IconButton><MessageIcon/></IconButton>
               </div>
             </Paper>
-            <CommentDynamicList comments={comments} pagination={{total: 100, current: 1}} />
             <CommentEditor/>
+            <CommentDynamicList comments={comments} pagination={{total: 100, current: 1}} />
           </div>
         </div>
       </MuiThemeProvider>
