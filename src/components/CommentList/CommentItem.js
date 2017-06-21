@@ -51,11 +51,12 @@ const CommentItem = ({
   let secondaryTextComponent;
 
   function toggleExpended() {
-    if (secondaryTextComponent.style.overflow == 'hidden') {
-      secondaryTextComponent.style.webkitLineClamp = 'initial';
-      secondaryTextComponent.style.overflow = 'initial';
-      secondaryTextComponent.style.textOverflow = 'initial';
-      secondaryTextComponent.style.height = 'auto'
+    if (secondaryTextComponent.style.overflow === 'hidden') {
+      secondaryTextComponent.style.webkitLineClamp = null;
+      secondaryTextComponent.style.overflow = 'auto';
+      secondaryTextComponent.style.textOverflow = null;
+      secondaryTextComponent.style.height = 'auto';
+      secondaryTextComponent.style.wordWrap = 'break-word';
     } else {
       secondaryTextComponent.style.webkitLineClamp = '2';
       secondaryTextComponent.style.overflow = 'hidden';

@@ -14,10 +14,18 @@ export async function articleComments(articleId, page, pageSize) {
   return request(`${apiOrigin}/article/${articleId}/comments/page/${page}${pageSize?'?pageSize=' + pageSize:''}`)
 }
 
-export async function sendComment(articleId) {
+export async function sendComment(articleId, { name, email, comment, referenceId }) {
   return request(`${apiOrigin}/article/${articleId}/comment`,{
     method: 'POST',
     headers: {'Content-Type': 'application/json; charset=UTF-8'},
-    body: {}
+    body: JSON.stringify({ name, email, comment, referenceId })
   })
+}
+
+export async function likeArticle(articleId) {
+  return request(`${apiOrigin}/article/${articleId}/like`)
+}
+
+export async function dislikeArticle() {
+  return request(`${apiOrigin}/article/${articleId}/dislike`)
 }

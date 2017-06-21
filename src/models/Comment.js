@@ -1,4 +1,4 @@
-import { articleComments } from '../services/Article';
+import { articleComments, sendComment } from '../services/Article';
 
 export default {
 
@@ -8,6 +8,10 @@ export default {
     name: '',
     email: '',
     comment: '',
+    referenceId: null,
+
+    commentEditorActive: false,
+
     comments: [],
     total: null,
     current: 1,
@@ -33,7 +37,26 @@ export default {
       }
     },
     *sendComment({payload}, {put, call, select}) {
-
+      const { name, email, comment, referenceId } = yield select(state => state.comment);
+      const { data } = yield call(sendComment, payload.id, { name, email, comment, referenceId });
+      if (data) {
+        console.log(data);
+        if (data.success) {
+          yield put({
+            type: 'updateCommentEditorActive',
+            payload: { commentEditorActive: false }
+          });
+          yield put({
+            type: 'snackbar/show',
+            payload: { message: 'send comment success' }
+          });
+          yield put({
+            type: 'getComments',
+            payload: { id: payload.id, page: 1 }
+          });
+          yield put({ type: 'clearCommentInfo' })
+        }
+      }
     }
   },
 
@@ -48,8 +71,18 @@ export default {
         pageSize,
       }
     },
-    updateComment(state, action) {
-      return { ...state, comment: action.payload.comment }
+    updateCommentInfo(state, action) {
+      const { field, value } = action.payload;
+      return { ...state, [field]: value }
+    },
+    updateReferenceId(state, action) {
+      return { ...state, referenceId: action.payload.referenceId }
+    },
+    updateCommentEditorActive(state, action) {
+      return { ...state, commentEditorActive: action.payload.commentEditorActive }
+    },
+    clearCommentInfo(state) {
+      return { ...state, name: '', email: '', comment: '', referenceId: null }
     }
   }
 

@@ -20,10 +20,6 @@ class ArticlePage extends React.Component {
 
     this.dispatch = props.dispatch;
     this.articleId = props.routeParams.id;
-
-    this.state = {
-      commentActive: false
-    };
   }
 
   componentWillMount() {
@@ -33,21 +29,31 @@ class ArticlePage extends React.Component {
     })
   }
 
-  onCommentEditorActiveChange = (commentActive) => {
-    this.setState({commentActive})
+  onCommentEditorActiveChange = (commentEditorActive) => {
+    this.dispatch({
+      type: 'comment/updateCommentEditorActive',
+      payload: { commentEditorActive }
+    })
   };
 
-  onCommentEditorChange = (e) => {
+  onCommentEditorChange = (field, value) => {
     this.dispatch({
-      type: 'comment/updateComment',
-      payload: { comment: e.target.value }
+      type: 'comment/updateCommentInfo',
+      payload: { field, value }
+    })
+  };
+
+  sendComment = () => {
+    this.dispatch({
+      type: 'comment/sendComment',
+      payload: { id: this.articleId }
     })
   };
 
   render() {
 
     const { article } = this.props.article;
-    const { comment } = this.props.comment;
+    const { comment } = this.props;
 
     const createDate = new Date(article.created_at);
 
@@ -71,11 +77,13 @@ class ArticlePage extends React.Component {
               </div>
             </Paper>
             <CommentEditor
-              active={this.state.commentActive}
-              value={comment}
+              active={comment.commentEditorActive}
+              name={comment.name}
+              email={comment.email}
+              comment={comment.comment}
               onActiveChange={this.onCommentEditorActiveChange}
               onChange={this.onCommentEditorChange}
-              onSend={()=>{}}
+              onSend={this.sendComment}
             />
             <CommentDynamicList
               articleId={this.articleId}
