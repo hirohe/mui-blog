@@ -10,6 +10,14 @@ export async function article(id) {
   return request(apiOrigin + '/article/' + id)
 }
 
-export async function articleComments(id, page, pageSize) {
-  return request(`${apiOrigin}/article/${id}/comments/page/${page}${pageSize?'?pageSize=' + pageSize:''}`)
+export async function articleComments(articleId, page, pageSize) {
+  return request(`${apiOrigin}/article/${articleId}/comments/page/${page}${pageSize?'?pageSize=' + pageSize:''}`)
+}
+
+export async function sendComment(articleId) {
+  return request(`${apiOrigin}/article/${articleId}/comment`,{
+    method: 'POST',
+    headers: {'Content-Type': 'application/json; charset=UTF-8'},
+    body: {}
+  })
 }

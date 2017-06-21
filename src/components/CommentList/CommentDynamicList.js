@@ -67,7 +67,6 @@ class CommentDynamicList extends React.Component {
 }
 
 CommentDynamicList.propTypes = {
-  pagination: PropTypes.object.isRequired,
   onPageChange: PropTypes.func,
 };
 

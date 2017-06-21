@@ -37,64 +37,19 @@ class ArticlePage extends React.Component {
     this.setState({commentActive})
   };
 
+  onCommentEditorChange = (e) => {
+    this.dispatch({
+      type: 'comment/updateComment',
+      payload: { comment: e.target.value }
+    })
+  };
+
   render() {
 
     const { article } = this.props.article;
+    const { comment } = this.props.comment;
 
     const createDate = new Date(article.created_at);
-
-    const comments = [
-      {
-        username: 'Hirohe',
-        hash: '3ec22854fb8d2a44c9569cc5b27afddd',
-        comment: 'asdas fdajkodif asdhjo hjas w dasdji asdhac asdo j asdaso  sadio asdoic ido asdjo cjiojiojo as',
-        date: new Date('2017-01-02')
-      },
-      {
-        username: 'Hirohe',
-        hash: '8d89c3087cc6cb98793ab7c0f5658c56',
-        comment: 'asdas fdajkodif asdhjo hjas w dasdji asdhac asdo j asdaso  sadio asdoic ido asdjo cjiojiojo as',
-        date: new Date(),
-        referenceId: 123
-      },
-      {
-        username: 'Hirohe',
-        hash: '3ec22854fb8d2a44c9569cc5b27afddd',
-        comment: 'asdas fdajkodif asdhjo hjas w dasdji asdhac asdo j asdaso  sadio asdoic ido asdjo cjiojiojo as',
-        date: new Date()
-      },
-      {
-        username: 'Hirohe',
-        hash: '3ec22854fb8d2a44c9569cc5b27afddd',
-        comment: 'asdas fdajkodif asdhjo hjas w dasdji asdhac asdo j asdaso  sadio asdoic ido asdjo cjiojiojo as',
-        date: new Date()
-      },
-      {
-        username: 'Hirohe',
-        hash: '3ec22854fb8d2a44c9569cc5b27afddd',
-        comment: 'asdas fdajkodif asdhjo hjas w dasdji asdhac asdo j asdaso  sadio asdoic ido asdjo cjiojiojo as',
-        date: new Date('2017-01-02')
-      },
-      {
-        username: 'Hirohe',
-        hash: '8d89c3087cc6cb98793ab7c0f5658c56',
-        comment: 'asdas fdajkodif asdhjo hjas w dasdji asdhac asdo j asdaso  sadio asdoic ido asdjo cjiojiojo as',
-        date: new Date(),
-        referenceId: 123
-      },
-      {
-        username: 'Hirohe',
-        hash: '3ec22854fb8d2a44c9569cc5b27afddd',
-        comment: 'asdas fdajkodif asdhjo hjas w dasdji asdhac asdo j asdaso  sadio asdoic ido asdjo cjiojiojo as',
-        date: new Date()
-      },
-      {
-        username: 'Hirohe',
-        hash: '3ec22854fb8d2a44c9569cc5b27afddd',
-        comment: 'asdas fdajkodif asdhjo hjas w dasdji asdhac asdo j asdaso  sadio asdoic ido asdjo cjiojiojo as',
-        date: new Date()
-      },
-    ];
 
     return (
       <MuiThemeProvider>
@@ -117,13 +72,13 @@ class ArticlePage extends React.Component {
             </Paper>
             <CommentEditor
               active={this.state.commentActive}
+              value={comment}
               onActiveChange={this.onCommentEditorActiveChange}
+              onChange={this.onCommentEditorChange}
               onSend={()=>{}}
             />
             <CommentDynamicList
               articleId={this.articleId}
-              comments={comments}
-              pagination={{total: 100, current: 1}}
             />
           </div>
         </div>
@@ -132,8 +87,8 @@ class ArticlePage extends React.Component {
   }
 }
 
-function mapStateToProps({ article }) {
-  return { article }
+function mapStateToProps({ article, comment }) {
+  return { article, comment }
 }
 
 export default connect(mapStateToProps)(ArticlePage);

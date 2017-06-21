@@ -13,12 +13,16 @@ class CommentEditor extends React.Component {
 
     this.state = {
       active: false,
-      message: '',
+      comment: '',
     }
   }
 
   textFieldOnClick = () => {
     this.props.onActiveChange(true)
+  };
+
+  textFieldOnChange = (e) => {
+    this.props.onChange(e)
   };
 
   maskOnClick = () => {
@@ -31,7 +35,7 @@ class CommentEditor extends React.Component {
 
   render() {
 
-    const active = this.props.active;
+    const { active, value } = this.props;
 
     return (
       <div>
@@ -41,13 +45,14 @@ class CommentEditor extends React.Component {
           style={{width: active?(window.innerWidth - 20):null}}
         >
           <TextField
-            value={this.state.message}
+            value={value}
             className={styles.textField}
             hintText="write your comment here"
             multiLine={true}
             rows={1}
             rowsMax={4}
             onClick={this.textFieldOnClick}
+            onChange={this.textFieldOnChange}
           />
           <FloatingActionButton mini className={styles.sendBtn} onTouchTap={this.sendOnClick}>
             <SendIcon/>

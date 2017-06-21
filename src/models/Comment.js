@@ -5,6 +5,9 @@ export default {
   namespace: 'comment',
 
   state: {
+    name: '',
+    email: '',
+    comment: '',
     comments: [],
     total: null,
     current: 1,
@@ -28,6 +31,9 @@ export default {
           }
         });
       }
+    },
+    *sendComment({payload}, {put, call, select}) {
+
     }
   },
 
@@ -41,6 +47,9 @@ export default {
         current,
         pageSize,
       }
+    },
+    updateComment(state, action) {
+      return { ...state, comment: action.payload.comment }
     }
   }
 
