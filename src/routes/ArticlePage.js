@@ -100,7 +100,7 @@ class ArticlePage extends React.Component {
               <div className={styles.info}>
                 <span>Author: {article.author}</span><br/>
                 <span>Publish date: {`${createDate.getFullYear()}-${createDate.getMonth() + 1}-${createDate.getDate()}`}</span><br/>
-                <span>Likes: {article.likes}</span>
+                <span>Likes: {like?article.likes + 1:article.likes}</span>
               </div>
               {/*article action*/}
               <div className={styles.action}>
