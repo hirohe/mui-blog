@@ -1,4 +1,4 @@
-import { articles, article, articleComments } from '../services/Article';
+import { articles, article, articleComments, likeArticle, dislikeArticle } from '../services/Article';
 
 export default {
 
@@ -7,7 +7,8 @@ export default {
   state: {
     article: {},
     articleList: [],
-    comments: []
+    comments: [],
+    like: false,
   },
 
   effects: {
@@ -36,6 +37,41 @@ export default {
           payload: { comments: data }
         })
       }
+    },
+    *like({payload}, {put, call, select}) {
+      const { data } = yield call(likeArticle, payload.id);
+      if (data) {
+        console.log(data);
+        if (data.success) {
+          yield put({
+            type: 'snackbar/show',
+            payload: { message: 'Thank you!' }
+          })
+        } else {
+          yield put({
+            type: 'snackbar/show',
+            payload: { message: 'already like it!' }
+          })
+        }
+        yield put({
+          type: 'updateLike',
+          payload: { like: true }
+        });
+      }
+    },
+    *dislike({payload}, {put, call, select}) {
+      const { data } = yield call(dislikeArticle, payload.id);
+      if (data) {
+        console.log(data);
+        yield put({
+          type: 'updateLike',
+          payload: { like: false }
+        });
+        yield put({
+          type: 'snackbar/show',
+          payload: { message: 'Thank you!' }
+        })
+      }
     }
   },
 
@@ -45,6 +81,9 @@ export default {
     },
     updateComments(state, action) {
       return { ...state, comments: action.payload.comments }
+    },
+    updateLike(state, action) {
+      return { ...state, like: action.payload.like }
     }
   }
 

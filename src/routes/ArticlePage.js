@@ -6,6 +6,8 @@ import IconButton from 'material-ui/IconButton';
 import FavoriteIcon from 'material-ui/svg-icons/action/favorite';
 import ShareIcon from 'material-ui/svg-icons/social/share';
 import MessageIcon from 'material-ui/svg-icons/communication/message';
+import { red500 } from 'material-ui/styles/colors';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 import CommentDynamicList from '../components/CommentList/CommentDynamicList';
 import CommentEditor from '../components/CommentEditor/CommentEditor';
@@ -50,9 +52,40 @@ class ArticlePage extends React.Component {
     })
   };
 
+  onCopy = () => {
+    this.dispatch({
+      type: 'snackbar/show',
+      payload: {
+        message: 'Copied'
+      }
+    })
+  };
+
+  likeBtnOnClick = () => {
+    const like = this.props.article.like;
+    let type;
+    if (like) {
+      type = 'article/dislike'
+    } else {
+      type = 'article/like'
+    }
+    this.dispatch({
+      type,
+      payload: { id: this.articleId }
+    })
+  };
+
+  messageBtnOnClick = (e) => {
+    e.preventDefault();
+    this.dispatch({
+      type: 'comment/updateCommentEditorActive',
+      payload: { commentEditorActive: true }
+    })
+  };
+
   render() {
 
-    const { article } = this.props.article;
+    const { article, like } = this.props.article;
     const { comment } = this.props;
 
     const createDate = new Date(article.created_at);
@@ -71,9 +104,11 @@ class ArticlePage extends React.Component {
               </div>
               {/*article action*/}
               <div className={styles.action}>
-                <IconButton><ShareIcon/></IconButton>
-                <IconButton><FavoriteIcon/></IconButton>
-                <IconButton><MessageIcon/></IconButton>
+                <CopyToClipboard text={window.location.href} onCopy={this.onCopy}>
+                  <IconButton><ShareIcon/></IconButton>
+                </CopyToClipboard>
+                <IconButton onTouchTap={this.likeBtnOnClick}><FavoriteIcon color={like?red500:null}/></IconButton>
+                <IconButton onTouchTap={this.messageBtnOnClick}><MessageIcon/></IconButton>
               </div>
             </Paper>
             <CommentEditor
@@ -81,6 +116,7 @@ class ArticlePage extends React.Component {
               name={comment.name}
               email={comment.email}
               comment={comment.comment}
+              sending={comment.sending}
               onActiveChange={this.onCommentEditorActiveChange}
               onChange={this.onCommentEditorChange}
               onSend={this.sendComment}

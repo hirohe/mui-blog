@@ -78,7 +78,7 @@ class CommentEditor extends React.Component {
 
   render() {
 
-    const { active, name, email, comment } = this.props;
+    const { active, name, email, comment, sending } = this.props;
 
     return (
       <div>
@@ -118,7 +118,12 @@ class CommentEditor extends React.Component {
               errorText={this.state.commentErrorText}
             />
           </div>
-          <FloatingActionButton mini className={styles.sendBtn} onTouchTap={this.sendOnClick}>
+          <FloatingActionButton
+            mini
+            className={styles.sendBtn}
+            onTouchTap={this.sendOnClick}
+            disabled={sending}
+          >
             <SendIcon/>
           </FloatingActionButton>
         </div>

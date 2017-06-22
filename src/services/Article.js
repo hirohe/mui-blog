@@ -26,6 +26,6 @@ export async function likeArticle(articleId) {
   return request(`${apiOrigin}/article/${articleId}/like`)
 }
 
-export async function dislikeArticle() {
+export async function dislikeArticle(articleId) {
   return request(`${apiOrigin}/article/${articleId}/dislike`)
 }

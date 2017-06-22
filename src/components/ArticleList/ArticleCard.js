@@ -59,7 +59,7 @@ class ArticleCard extends React.Component {
             <FavoriteIcon color={this.state.like?red500:grey500}/>
           </IconButton>
           <IconButton>
-            <CopyToClipboard text={'article ' + id} onCopy={this.onCopy}>
+            <CopyToClipboard text={window.location.href} onCopy={this.onCopy}>
               <ShareIcon color={grey500}/>
             </CopyToClipboard>
           </IconButton>

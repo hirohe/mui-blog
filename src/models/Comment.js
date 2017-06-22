@@ -11,6 +11,7 @@ export default {
     referenceId: null,
 
     commentEditorActive: false,
+    sending: false,
 
     comments: [],
     total: null,
@@ -38,6 +39,7 @@ export default {
     },
     *sendComment({payload}, {put, call, select}) {
       const { name, email, comment, referenceId } = yield select(state => state.comment);
+      yield put({type: 'startSending'});
       const { data } = yield call(sendComment, payload.id, { name, email, comment, referenceId });
       if (data) {
         console.log(data);
@@ -57,6 +59,7 @@ export default {
           yield put({ type: 'clearCommentInfo' })
         }
       }
+      yield put({type: 'endSending'});
     }
   },
 
@@ -83,6 +86,16 @@ export default {
     },
     clearCommentInfo(state) {
       return { ...state, name: '', email: '', comment: '', referenceId: null }
+    },
+    addReferenceIdToComment(state, action) {
+      const { referenceId } = action.payload;
+      return { ...state, comment: `<<${referenceId} ${state.comment}`, commentEditorActive: true }
+    },
+    startSending(state) {
+      return { ...state, sending: true }
+    },
+    endSending(state) {
+      return { ...state, sending: false }
     }
   }
 

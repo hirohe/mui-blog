@@ -23,15 +23,26 @@ class CommentDynamicList extends React.Component {
   }
 
   prevPage = () => {
-    console.log('to previous');
-    this.setState({current: this.state.current - 1});
-    this.props.onPageChange(this.state.current);
+    const page = this.props.comment.current - 1;
+    this.dispatch({
+      type: 'comment/getComments',
+      payload: { id: this.articleId, page }
+    });
   };
 
   nextPage = () => {
-    console.log('to next');
-    this.setState({current: this.state.current + 1});
-    this.props.onPageChange(this.state.current);
+    const page = this.props.comment.current + 1;
+    this.dispatch({
+      type: 'comment/getComments',
+      payload: { id: this.articleId, page }
+    });
+  };
+
+  onReply = (referenceId) => {
+    this.dispatch({
+      type: 'comment/addReferenceIdToComment',
+      payload: { referenceId }
+    })
   };
 
   render() {
@@ -44,7 +55,7 @@ class CommentDynamicList extends React.Component {
           <Subheader>Comments</Subheader>
           {
             comments.map((comment, i) =>
-              <CommentItem comment={comment} key={i} />
+              <CommentItem comment={comment} onReply={this.onReply} key={i} />
             )
           }
         </List>

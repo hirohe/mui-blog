@@ -22,11 +22,13 @@ const iconButtonElement = (
   </IconButton>
 );
 
-const rightIconMenu = (
-  <IconMenu iconButtonElement={iconButtonElement}>
-    <MenuItem>回复</MenuItem>
-  </IconMenu>
-);
+const RightIconMenu = ({ onReply }) => {
+  return (
+    <IconMenu iconButtonElement={iconButtonElement}>
+      <MenuItem onTouchTap={onReply}>回复</MenuItem>
+    </IconMenu>
+  );
+};
 
 /*
 * {
@@ -38,12 +40,14 @@ const rightIconMenu = (
 * */
 const CommentItem = ({
   comment: {
+    id,
     name,
     email_hash,
     comment,
     created_at,
     reference_id,
-  }
+  },
+  onReply
 }) => {
 
   created_at = new Date(created_at);
@@ -56,7 +60,7 @@ const CommentItem = ({
       secondaryTextComponent.style.overflow = 'auto';
       secondaryTextComponent.style.textOverflow = null;
       secondaryTextComponent.style.height = 'auto';
-      secondaryTextComponent.style.wordWrap = 'break-word';
+      secondaryTextComponent.style.minHeight = '36px';
     } else {
       secondaryTextComponent.style.webkitLineClamp = '2';
       secondaryTextComponent.style.overflow = 'hidden';
@@ -92,7 +96,7 @@ const CommentItem = ({
   );
 
   const secondaryText = (
-    <span ref={(c => secondaryTextComponent = c)}>
+    <span ref={(c => secondaryTextComponent = c)} style={{wordWrap: 'break-word'}}>
       {reference_id?<a style={{color: 'blue'}} onClick={referenceOnClick}>{`<<${reference_id} `}</a>:null}
       {comment}
     </span>
@@ -101,7 +105,11 @@ const CommentItem = ({
   return (
     <ListItem
       leftAvatar={<Avatar icon={avatarDiv}/>}
-      rightIconButton={rightIconMenu}
+      rightIconButton={(
+        <IconMenu iconButtonElement={iconButtonElement}>
+          <MenuItem onTouchTap={(e)=>{e.preventDefault(); onReply(id)}}>回复</MenuItem>
+        </IconMenu>
+      )}
       primaryText={primaryText}
       secondaryText={secondaryText}
       secondaryTextLines={2}
