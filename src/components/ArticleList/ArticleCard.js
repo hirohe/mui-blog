@@ -13,6 +13,7 @@ class ArticleCard extends React.Component {
   constructor(props) {
     super(props);
 
+    this.articleId = props.article.id;
     this.dispatch = props.dispatch;
     this.state = {
       like: false,
@@ -29,8 +30,12 @@ class ArticleCard extends React.Component {
       payload: {
         message: 'Thank you!'
       }
-    })
+    });
     this.setState({like: !this.state.like})
+  };
+
+  onSelect = () => {
+    this.props.onSelect(this.articleId)
   };
 
   onCopy = () => {
@@ -44,15 +49,17 @@ class ArticleCard extends React.Component {
 
   render() {
 
-    const { id, title, subtitle, picUrl, content, likes } = this.props.article;
+    const { id, title, sub_title, cover_url, preview, likes } = this.props.article;
 
     return (
       <Card className={styles.articleCard}>
-        <CardHeader title={title} subtitle={subtitle}/>
-        <CardMedia>
-          <img src={picUrl} />
-        </CardMedia>
-        <CardText className={styles.cardText}>{content}</CardText>
+        <CardHeader onTouchTap={this.onSelect} title={title} subtitle={sub_title}/>
+        {cover_url?(
+          <CardMedia onTouchTap={this.onSelect}>
+            <img src={cover_url} />
+          </CardMedia>
+        ):null}
+        <CardText onTouchTap={this.onSelect} className={styles.cardText}>{preview}</CardText>
         <CardActions className={styles.cardActions}>
           <div className={styles.likes}>{this.state.like?likes+1:likes}</div>
           <IconButton onTouchTap={this.toggleLike}>

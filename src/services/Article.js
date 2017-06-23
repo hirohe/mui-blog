@@ -2,8 +2,8 @@ import request from '../utils/request';
 
 const apiOrigin = 'http://localhost:7001/blog';
 
-export async function articles() {
-  return request(apiOrigin + '/articles')
+export async function articles(page) {
+  return request(apiOrigin + '/articles/page/' + page)
 }
 
 export async function article(id) {

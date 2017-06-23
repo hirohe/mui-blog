@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import ArticleCard from './ArticleCard';
 import FlatButton from 'material-ui/FlatButton';
 
@@ -8,52 +10,58 @@ class ArticleList extends React.Component {
   constructor(props) {
     super(props);
 
-    const { pagination } = props;
-
-    this.current = pagination.current || 1;
-    this.total = pagination.total;
-    this.pageSize = pagination.pageSize || 10;
-    this.onChange = pagination.onChange;
+    this.dispatch = props.dispatch;
   }
 
   componentWillMount() {
-
+    this.dispatch({
+      type: 'article/getArticles',
+      payload: { page: 1 }
+    })
   }
 
   prevPage = () => {
-    this.onChange(this.current - 1, this.pageSize)
+    const page = this.props.article.current - 1;
+    this.dispatch({
+      type: 'article/getArticles',
+      payload: { page }
+    })
   };
 
   nextPage = () => {
-    this.onChange(this.current + 1, this.pageSize)
+    const page = this.props.article.current + 1;
+    this.dispatch({
+      type: 'article/getArticles',
+      payload: { page }
+    })
   };
 
-  isLastPage = () => {
-    return this.current * this.pageSize >= this.total
+  articleOnSelect = (id) => {
+    this.dispatch(routerRedux.push({pathname: '/article/' + id}))
   };
 
   render() {
 
-    const articleList = this.props.articleList;
+    const { articles, current, total, pageSize } = this.props.article;
 
     return (
       <div>
         {
-          articleList.map((article, i) => {
-            return <ArticleCard key={i} article={article} />
+          articles.map((article, i) => {
+            return <ArticleCard key={i} article={article} onSelect={this.articleOnSelect} />
           })
         }
         <div className={styles.pagination}>
           <FlatButton
             label="上一页"
             onClick={this.prevPage}
-            disabled={this.current === 1}
+            disabled={current === 1}
           />
-          <span className={styles.page}>{this.current}/{Math.ceil(this.total/this.pageSize)}</span>
+          <span className={styles.page}>{`${current}/${Math.ceil(total / pageSize)}`}</span>
           <FlatButton
             label="下一页"
             onClick={this.nextPage}
-            disabled={this.isLastPage()}
+            disabled={current * pageSize >= total}
           />
         </div>
       </div>
@@ -61,4 +69,8 @@ class ArticleList extends React.Component {
   }
 }
 
-export default ArticleList;
+function mapStateToProps({ article }) {
+  return { article }
+}
+
+export default connect(mapStateToProps)(ArticleList);
