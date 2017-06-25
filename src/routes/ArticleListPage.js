@@ -23,21 +23,6 @@ class ArticlePage extends React.Component {
 
     const { articles } = this.props.article;
 
-    const article = {
-      id: 1,
-      title: 'title',
-      subtitle: 'asdasd',
-      picUrl: 'http://design.1sters.com/material_design/material-design/images/materialdesign-goals-landingimage_large_mdpi.png',
-      content: 'asdasd asda asdasd fadsf',
-      likes: 1,
-    };
-
-    const articleList = [
-      article,
-      article,
-      article
-    ];
-
     return (
       <MuiThemeProvider>
         <div>

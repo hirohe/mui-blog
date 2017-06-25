@@ -18,6 +18,7 @@ export default {
 
   effects: {
     *getArticles({payload}, {put, call, select}) {
+      yield put({type: 'index/startLoading'});
       const { data } = yield call(articles, payload.page);
       if (data) {
         console.log(data);
@@ -31,6 +32,7 @@ export default {
           }
         })
       }
+      yield put({type: 'index/endLoading'});
     },
     *getArticle({payload}, {put, call, select}) {
       const { data } = yield call(article, payload.id);

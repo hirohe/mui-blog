@@ -17,6 +17,7 @@ const app = dva({
 // app.use({});
 
 // 3. Model
+app.model(require('./models/Index'));
 app.model(require('./models/Article'));
 app.model(require('./models/Comment'));
 app.model(require('./models/Snackbar'));

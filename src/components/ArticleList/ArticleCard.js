@@ -7,6 +7,8 @@ import ShareIcon from 'material-ui/svg-icons/social/share';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { red500, grey500 } from 'material-ui/styles/colors';
 
+import { likeArticle, dislikeArticle } from '../../services/Article';
+
 import styles from './Article.less';
 
 class ArticleCard extends React.Component {
@@ -25,13 +27,26 @@ class ArticleCard extends React.Component {
   }
 
   toggleLike = () => {
+
+    let message = 'Thank you!';
+    if (this.state.like) {
+      dislikeArticle(this.articleId).then(response => {
+        this.setState({ like: false });
+      })
+    } else {
+      likeArticle(this.articleId).then(response => {
+        if (response.data.success) {
+          message = 'already like it'
+        } else {
+          this.setState({ like: true })
+        }
+      })
+    }
+
     this.dispatch({
       type: 'snackbar/show',
-      payload: {
-        message: 'Thank you!'
-      }
+      payload: { message }
     });
-    this.setState({like: !this.state.like})
   };
 
   onSelect = () => {
@@ -49,11 +64,21 @@ class ArticleCard extends React.Component {
 
   render() {
 
-    const { id, title, sub_title, cover_url, preview, likes } = this.props.article;
+    const { id, title, sub_title, created_at, cover_url, preview, likes } = this.props.article;
+
+    const createdDate = new Date(created_at);
 
     return (
       <Card className={styles.articleCard}>
-        <CardHeader onTouchTap={this.onSelect} title={title} subtitle={sub_title}/>
+        <CardHeader
+          onTouchTap={this.onSelect}
+          title={title}
+          subtitle={(
+            <span>{sub_title}
+              <span>{` | 创建日期:${createdDate.getFullYear()}-${createdDate.getMonth() + 1}-${createdDate.getDate()}`}</span>
+            </span>
+          )}
+        />
         {cover_url?(
           <CardMedia onTouchTap={this.onSelect}>
             <img src={cover_url} />
