@@ -5,7 +5,7 @@ import AppBar from 'material-ui/AppBar';
 import Snackbar from 'material-ui/Snackbar';
 import CircularProgress from 'material-ui/CircularProgress';
 
-import MyDrawer from '../components/MyDrawer';
+import MyDrawer from '../components/MyDrawer/MyDrawer';
 import Spin from '../components/Spin/Spin';
 
 import styles from './IndexPage.css';

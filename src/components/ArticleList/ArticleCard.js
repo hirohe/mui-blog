@@ -35,11 +35,10 @@ class ArticleCard extends React.Component {
       })
     } else {
       likeArticle(this.articleId).then(response => {
-        if (response.data.success) {
+        if (!response.data.success) {
           message = 'already like it'
-        } else {
-          this.setState({ like: true })
         }
+        this.setState({ like: true })
       })
     }
 

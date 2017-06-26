@@ -15,10 +15,12 @@ export async function articleComments(articleId, page, pageSize) {
 }
 
 export async function sendComment(articleId, { name, email, comment, referenceId }) {
+  const data = { name, email, comment };
+  if (referenceId) data.reference_id = referenceId;
   return request(`${apiOrigin}/article/${articleId}/comment`,{
     method: 'POST',
     headers: {'Content-Type': 'application/json; charset=UTF-8'},
-    body: JSON.stringify({ name, email, comment, referenceId })
+    body: JSON.stringify(data)
   })
 }
 

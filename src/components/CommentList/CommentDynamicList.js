@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { findDOMNode } from 'react-dom';
 import { connect } from 'dva';
 import { List } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
@@ -45,6 +46,10 @@ class CommentDynamicList extends React.Component {
     })
   };
 
+  referenceOnClick = (referenceId) => {
+    findDOMNode(this['comment_' + referenceId]).scrollIntoView();
+  };
+
   render() {
 
     const { comments, current, total, pageSize } = this.props.comment;
@@ -55,7 +60,13 @@ class CommentDynamicList extends React.Component {
           <Subheader>Comments</Subheader>
           {
             comments.map((comment, i) =>
-              <CommentItem comment={comment} onReply={this.onReply} key={i} />
+              <CommentItem
+                ref={commentEl => this['comment_' + comment.id] = commentEl}
+                comment={comment}
+                onReply={this.onReply}
+                referenceOnClick={this.referenceOnClick}
+                key={i}
+              />
             )
           }
         </List>

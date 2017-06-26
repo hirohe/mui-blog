@@ -14,10 +14,7 @@ class ArticleList extends React.Component {
   }
 
   componentWillMount() {
-    this.dispatch({
-      type: 'article/getArticles',
-      payload: { page: 1 }
-    })
+
   }
 
   prevPage = () => {

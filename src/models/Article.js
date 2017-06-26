@@ -103,6 +103,7 @@ export default {
     },
     getArticlesSuccess(state, action) {
       const { articles, current, pageSize, total } = action.payload;
+      articles.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
       return {
         ...state,
         articles,

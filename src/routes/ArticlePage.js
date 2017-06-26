@@ -117,6 +117,7 @@ class ArticlePage extends React.Component {
               email={comment.email}
               comment={comment.comment}
               sending={comment.sending}
+              referenceId={comment.referenceId}
               onActiveChange={this.onCommentEditorActiveChange}
               onChange={this.onCommentEditorChange}
               onSend={this.sendComment}
