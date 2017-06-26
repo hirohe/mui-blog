@@ -3,8 +3,10 @@ import { connect } from 'dva';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import Snackbar from 'material-ui/Snackbar';
+import CircularProgress from 'material-ui/CircularProgress';
 
 import MyDrawer from '../components/MyDrawer';
+import Spin from '../components/Spin/Spin';
 
 import styles from './IndexPage.css';
 import commonStyle from './CommonStyle.less';
@@ -37,7 +39,7 @@ class IndexPage extends React.Component {
 
   render() {
 
-    const { snackbar, children } = this.props;
+    const { snackbar, index, children } = this.props;
 
     return (
       <MuiThemeProvider>
@@ -58,6 +60,7 @@ class IndexPage extends React.Component {
             autoHideDuration={snackbar.duration}
             onRequestClose={this.hiddenSnackbar}
           />
+          <Spin loading={index.loading}/>
         </div>
       </MuiThemeProvider>
     );
@@ -65,8 +68,8 @@ class IndexPage extends React.Component {
 
 }
 
-function mapStateToProps({ snackbar }) {
-  return { snackbar }
+function mapStateToProps({ snackbar, index }) {
+  return { snackbar, index }
 }
 
 export default connect(mapStateToProps)(IndexPage);

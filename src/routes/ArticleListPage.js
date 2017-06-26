@@ -21,20 +21,7 @@ class ArticlePage extends React.Component {
 
   render() {
 
-    const article = {
-      id: 1,
-      title: 'title',
-      subtitle: 'asdasd',
-      picUrl: 'http://design.1sters.com/material_design/material-design/images/materialdesign-goals-landingimage_large_mdpi.png',
-      content: 'asdasd asda asdasd fadsf',
-      likes: 1,
-    };
-
-    const articleList = [
-      article,
-      article,
-      article
-    ];
+    const { articles } = this.props.article;
 
     return (
       <MuiThemeProvider>
@@ -43,8 +30,8 @@ class ArticlePage extends React.Component {
             <AppBar title="Article"/>
           </div>*/}
           <div className={styles.articleContent} style={{ height: window.innerHeight - 64 }}>
-            <div className={commonStyle.headTitle}>hello</div>
-            <ArticleList articleList={articleList} pagination={{ current: this.page, total: 11, onChange: (page, pageSize) => console.log(page, pageSize) }}/>
+            <div className={commonStyle.headTitle}>Articles</div>
+            <ArticleList articleList={articles} pagination={{ current: this.page, total: 11, onChange: (page, pageSize) => console.log(page, pageSize) }}/>
           </div>
         </div>
       </MuiThemeProvider>

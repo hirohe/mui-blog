@@ -6,17 +6,33 @@ export default {
 
   state: {
     article: {},
-    articleList: [],
+
+    articles: [],
+    current: 1,
+    total: null,
+    pageSize: 10,
+
     comments: [],
     like: false,
   },
 
   effects: {
     *getArticles({payload}, {put, call, select}) {
-      const { data } = yield call(articles);
+      yield put({type: 'index/startLoading'});
+      const { data } = yield call(articles, payload.page);
       if (data) {
-        console.log(data)
+        console.log(data);
+        yield put({
+          type: 'getArticlesSuccess',
+          payload: {
+            articles: data.articles,
+            current: data.page,
+            total: data.total,
+            pageSize: data.pageSize
+          }
+        })
       }
+      yield put({type: 'index/endLoading'});
     },
     *getArticle({payload}, {put, call, select}) {
       const { data } = yield call(article, payload.id);
@@ -84,6 +100,16 @@ export default {
     },
     updateLike(state, action) {
       return { ...state, like: action.payload.like }
+    },
+    getArticlesSuccess(state, action) {
+      const { articles, current, pageSize, total } = action.payload;
+      return {
+        ...state,
+        articles,
+        current,
+        pageSize,
+        total,
+      }
     }
   }
 
