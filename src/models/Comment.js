@@ -89,7 +89,7 @@ export default {
     },
     addReferenceIdToComment(state, action) {
       const { referenceId } = action.payload;
-      return { ...state, comment: `<<${referenceId} ${state.comment}`, commentEditorActive: true }
+      return { ...state, referenceId, comment: `<<${referenceId} ${state.comment}`, commentEditorActive: true }
     },
     startSending(state) {
       return { ...state, sending: true }
