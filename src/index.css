@@ -6,3 +6,41 @@ html, body, :global(#root) {
 body {
   margin: 0px;
 }
+
+/* iconmoon style */
+@font-face {
+  font-family: 'icomoon';
+  src:  url('./assets/iconfonts/icomoon.eot');
+  src:  url('./assets/iconfonts/icomoon.eot') format('embedded-opentype'),
+  url('./assets/iconfonts/icomoon.ttf') format('truetype'),
+  url('./assets/iconfonts/icomoon.woff') format('woff'),
+  url('./assets/iconfonts/icomoon.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:global(.icon-book:before) {
+  content: "\e900";
+}
+:global(.icon-twitter:before) {
+  content: "\e901";
+  color: #1da1f2;
+}
+:global(.icon-github:before) {
+  content: "\e902";
+}
