@@ -11,6 +11,30 @@ injectTapEventPlugin();
 // 1. Initialize
 const app = dva({
   history: useRouterHistory(createHashHistory)({ queryKey: false }),
+  onError(error, dispatch) {
+    let message;
+    switch (error.response.status) {
+      case 401: {
+        message = '验证失败';
+        break
+      }
+      case 403: {
+        message = '参数错误';
+        break
+      }
+      case 500: {
+        message = '服务器错误';
+        break
+      }
+      default: {
+        message = '未知错误';
+      }
+    }
+    dispatch({
+      type: 'snackbar/show',
+      payload: { message }
+    })
+  }
 });
 
 // 2. Plugins

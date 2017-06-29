@@ -84,7 +84,7 @@ class CommentItem extends React.Component {
       <span>
       {name}
         <span className={styles.date}>
-        {'回复时间 : ' + dateStr}
+        {`#${id} 回复时间: ${dateStr}`}
       </span>
     </span>
     );

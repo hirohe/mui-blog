@@ -16,7 +16,5 @@ export default (webpackConfig, env) => {
     exclude: /node_modules/
   });
 
-  console.log(webpackConfig.module.loaders);
-
   return webpackConfig;
 }

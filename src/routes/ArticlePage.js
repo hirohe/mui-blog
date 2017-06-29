@@ -122,9 +122,11 @@ class ArticlePage extends React.Component {
               onChange={this.onCommentEditorChange}
               onSend={this.sendComment}
             />
-            <CommentDynamicList
-              articleId={this.articleId}
-            />
+            <div className={styles.commentList}>
+              <CommentDynamicList
+                articleId={this.articleId}
+              />
+            </div>
           </div>
         </div>
       </MuiThemeProvider>

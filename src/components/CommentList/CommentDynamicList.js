@@ -47,7 +47,8 @@ class CommentDynamicList extends React.Component {
   };
 
   referenceOnClick = (referenceId) => {
-    findDOMNode(this['comment_' + referenceId]).scrollIntoView();
+    if (findDOMNode(this['comment_' + referenceId]))
+      findDOMNode(this['comment_' + referenceId]).scrollIntoView();
   };
 
   render() {

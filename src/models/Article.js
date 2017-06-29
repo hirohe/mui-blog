@@ -19,7 +19,7 @@ export default {
   effects: {
     *getArticles({payload}, {put, call, select}) {
       yield put({type: 'index/startLoading'});
-      const { data } = yield call(articles, payload.page);
+      const { data, error } = yield call(articles, payload.page);
       if (data) {
         console.log(data);
         yield put({
@@ -31,6 +31,9 @@ export default {
             pageSize: data.pageSize
           }
         })
+      } else if (error) {
+        yield put({type: 'index/endLoading'});
+        throw error
       }
       yield put({type: 'index/endLoading'});
     },

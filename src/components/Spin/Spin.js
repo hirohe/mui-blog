@@ -18,8 +18,7 @@ class Spin extends React.Component {
     const loading = nextProps.loading;
     const delay = this.props.delay;
 
-    if (!currentLoading && loading) {
-
+    if (!currentLoading && loading && !this.delayTimeout) {
       let ms = 300;
       if (delay && !isNaN(Number(delay))) ms = delay;
 

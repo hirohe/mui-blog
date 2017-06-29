@@ -13,6 +13,16 @@ const fontIconStyle = {
   fontSize: 24
 };
 
+const shadowStyle = {
+  height: 80,
+  width: 80,
+  borderRadius: 40,
+  boxShadow: '0 -2px 8px 1px #888 inset',
+  top: -80,
+  position: 'relative',
+  marginBottom: -80,
+};
+
 class MyDrawer extends React.Component {
 
   constructor(props) {
@@ -60,6 +70,7 @@ class MyDrawer extends React.Component {
             src="https://avatars2.githubusercontent.com/u/14357567?v=3&u=d3788aa9932f57e8e5aa64389d3f148535c36458&s=400"
             size={80}
           />
+          <div style={shadowStyle} />
           <div className={styles.name}>Hirohe</div>
         </div>
         <List>
@@ -75,12 +86,12 @@ class MyDrawer extends React.Component {
           />
           <Divider/>
           <ListItem
-            primaryText="Articles"
+            primaryText="文章"
             leftIcon={<span style={fontIconStyle} className="icon-book" />}
             onTouchTap={()=>{this.itemOnClick('articles')}}
           />
           <ListItem
-            primaryText="About Me"
+            primaryText="关于"
             leftIcon={<InfoIcon/>}
             onTouchTap={()=>{this.itemOnClick('about')}}
           />

@@ -19,7 +19,7 @@ class IndexPage extends React.Component {
     this.state = {
       index: 0,
       selectedIndex: 0,
-      drawVisible: false,
+      drawerVisible: false,
     }
   }
 
@@ -34,7 +34,7 @@ class IndexPage extends React.Component {
   };
 
   openDrawer = () => {
-    this.setState({drawVisible: true});
+    this.setState({drawerVisible: true});
   };
 
   render() {
@@ -51,8 +51,8 @@ class IndexPage extends React.Component {
             {children}
           </div>
           <MyDrawer
-            open={this.state.drawVisible}
-            onRequestChange={drawVisible => this.setState({ drawVisible })}
+            open={this.state.drawerVisible}
+            onRequestChange={drawerVisible => this.setState({ drawerVisible })}
           />
           <Snackbar
             message={snackbar.message}
