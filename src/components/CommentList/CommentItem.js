@@ -77,7 +77,7 @@ class CommentItem extends React.Component {
     if (now - created_at.valueOf() < 1000 * 60) {
       dateStr = '刚刚';
     } else {
-      dateStr = `${createdDate.getFullYear()}-${createdDate.getMonth() + 1}-${createdDate.getDate()} ${createdDate.getHours()}:${createdDate.getMinutes()}:${createdDate.getSeconds()}`;
+      dateStr = `${createdDate.getFullYear()} 年 ${createdDate.getMonth() + 1} 月 ${createdDate.getDate()} 日`;
     }
 
     const primaryText = (

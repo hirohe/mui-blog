@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+/* custom renderers */
 import CodeBlock from './CodeBlock';
+import BlockQuote from './BlockQuote';
 
 import styles from './ArticleMarkdown.less';
 
@@ -18,7 +20,7 @@ const Article = ({ content, htmlMode }) => {
           source={content}
           skipHtml={htmlMode === 'skip'}
           escapeHtml={htmlMode === 'escape'}
-          renderers={{ ...ReactMarkdown.renderers, CodeBlock }}
+          renderers={{ ...ReactMarkdown.renderers, CodeBlock, BlockQuote }}
         />
       </div>
     </div>

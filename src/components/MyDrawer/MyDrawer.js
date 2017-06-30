@@ -61,7 +61,7 @@ class MyDrawer extends React.Component {
     return (
       <Drawer
         docked={false}
-        width={200}
+        width={250}
         open={open}
         onRequestChange={onRequestChange}
       >

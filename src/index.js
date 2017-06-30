@@ -4,7 +4,7 @@ import { createHashHistory } from 'history';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import './index.css';
 //hightlight css
-import 'highlightjs/styles/monokai.css';
+import 'highlightjs/styles/monokai-sublime.css';
 
 injectTapEventPlugin();
 
@@ -13,22 +13,27 @@ const app = dva({
   history: useRouterHistory(createHashHistory)({ queryKey: false }),
   onError(error, dispatch) {
     let message;
-    switch (error.response.status) {
-      case 401: {
-        message = '验证失败';
-        break
+
+    if (error.response) {
+      switch (error.response.status) {
+        case 401: {
+          message = '验证失败';
+          break
+        }
+        case 403: {
+          message = '参数错误';
+          break
+        }
+        case 500: {
+          message = '服务器错误';
+          break
+        }
+        default: {
+          message = '未知错误';
+        }
       }
-      case 403: {
-        message = '参数错误';
-        break
-      }
-      case 500: {
-        message = '服务器错误';
-        break
-      }
-      default: {
-        message = '未知错误';
-      }
+    } else {
+      message = error.message
     }
     dispatch({
       type: 'snackbar/show',

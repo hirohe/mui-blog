@@ -7,7 +7,7 @@ import ShareIcon from 'material-ui/svg-icons/social/share';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { red500, grey500 } from 'material-ui/styles/colors';
 
-import { likeArticle, dislikeArticle } from '../../services/Article';
+import { likeArticle, dislikeArticle } from '../../services/Blog';
 
 import styles from './Article.less';
 
@@ -63,7 +63,7 @@ class ArticleCard extends React.Component {
 
   render() {
 
-    const { id, title, sub_title, created_at, cover_url, preview, likes } = this.props.article;
+    const { id, title, sub_title, author, created_at, cover_url, preview, likes } = this.props.article;
 
     const createdDate = new Date(created_at);
 
@@ -74,7 +74,7 @@ class ArticleCard extends React.Component {
           title={title}
           subtitle={(
             <span>{sub_title}
-              <span>{` | 创建日期:${createdDate.getFullYear()}-${createdDate.getMonth() + 1}-${createdDate.getDate()}`}</span>
+              <span>{` | 创建日期:${createdDate.getFullYear()}-${createdDate.getMonth() + 1}-${createdDate.getDate()} | ${author}`}</span>
             </span>
           )}
         />

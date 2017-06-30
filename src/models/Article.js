@@ -1,4 +1,4 @@
-import { articles, article, articleComments, likeArticle, dislikeArticle } from '../services/Article';
+import { articles, article, articleComments, likeArticle, dislikeArticle } from '../services/Blog';
 
 export default {
 
@@ -21,7 +21,6 @@ export default {
       yield put({type: 'index/startLoading'});
       const { data, error } = yield call(articles, payload.page);
       if (data) {
-        console.log(data);
         yield put({
           type: 'getArticlesSuccess',
           payload: {
@@ -38,29 +37,30 @@ export default {
       yield put({type: 'index/endLoading'});
     },
     *getArticle({payload}, {put, call, select}) {
-      const { data } = yield call(article, payload.id);
+      const { data, error } = yield call(article, payload.id);
       if (data) {
-        console.log(data);
         yield put({
           type: 'updateArticle',
           payload: { article: data }
         })
+      } else if (error) {
+        throw error
       }
     },
     *getComments({payload}, {put, call, select}) {
-      const { data } = yield call(articleComments, payload.id);
+      const { data, error } = yield call(articleComments, payload.id);
       if (data) {
-        console.log(data);
         yield put({
           type: 'updateComments',
           payload: { comments: data }
         })
+      } else if (error) {
+        throw error
       }
     },
     *like({payload}, {put, call, select}) {
-      const { data } = yield call(likeArticle, payload.id);
+      const { data, error } = yield call(likeArticle, payload.id);
       if (data) {
-        console.log(data);
         if (data.success) {
           yield put({
             type: 'snackbar/show',
@@ -76,12 +76,13 @@ export default {
           type: 'updateLike',
           payload: { like: true }
         });
+      } else if (error) {
+        throw error
       }
     },
     *dislike({payload}, {put, call, select}) {
-      const { data } = yield call(dislikeArticle, payload.id);
+      const { data, error } = yield call(dislikeArticle, payload.id);
       if (data) {
-        console.log(data);
         yield put({
           type: 'updateLike',
           payload: { like: false }
@@ -90,6 +91,8 @@ export default {
           type: 'snackbar/show',
           payload: { message: 'Thank you!' }
         })
+      } else if (error) {
+        throw error
       }
     }
   },

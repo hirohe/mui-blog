@@ -3,7 +3,6 @@ import { connect } from 'dva';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import Snackbar from 'material-ui/Snackbar';
-import CircularProgress from 'material-ui/CircularProgress';
 
 import MyDrawer from '../components/MyDrawer/MyDrawer';
 import Spin from '../components/Spin/Spin';
@@ -17,17 +16,9 @@ class IndexPage extends React.Component {
 
     this.dispatch = props.dispatch;
     this.state = {
-      index: 0,
-      selectedIndex: 0,
       drawerVisible: false,
     }
   }
-
-  indexOnChange = (value) => {
-    this.setState({index: value})
-  };
-
-  select = (index) => this.setState({selectedIndex: index});
 
   hiddenSnackbar = () => {
     this.dispatch({type: 'snackbar/hidden'})

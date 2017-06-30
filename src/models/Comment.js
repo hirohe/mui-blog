@@ -1,4 +1,4 @@
-import { articleComments, sendComment } from '../services/Article';
+import { articleComments, sendComment } from '../services/Blog';
 
 export default {
 
@@ -24,7 +24,6 @@ export default {
       const { id, page, pageSize } = payload;
       const { data } = yield call(articleComments, id, page, pageSize);
       if (data) {
-        console.log(data);
         const { comments, total, page, pageSize } = data;
         yield put({
           type: 'getCommentsSuccess',
@@ -42,7 +41,6 @@ export default {
       yield put({type: 'startSending'});
       const { data } = yield call(sendComment, payload.id, { name, email, comment, referenceId });
       if (data) {
-        console.log(data);
         if (data.success) {
           yield put({
             type: 'updateCommentEditorActive',
