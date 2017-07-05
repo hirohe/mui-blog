@@ -1,9 +1,20 @@
 import request from '../utils/request';
+import qs from 'qs';
 
 const apiOrigin = 'http://localhost:7001/blog';
 
 export async function articles(page) {
   return request(apiOrigin + '/articles/page/' + page)
+}
+
+/* { field: value }, sort, order, exclude */
+export async function queryArticles(fields, sort, order, exclude) {
+  const params = { ...fields };
+  if (sort) params.sort = sort;
+  if (order) params.order = order;
+  if (exclude) params.exclude = exclude;
+  console.log(params);
+  return request(`${apiOrigin}/articles?${qs.stringify(params)}`)
 }
 
 export async function article(id) {

@@ -15,10 +15,10 @@ class ArticlePage extends React.Component {
   }
 
   componentWillMount() {
-    this.dispatch({
+    /*this.dispatch({
       type: 'article/getArticles',
       payload: { page: this.page }
-    })
+    })*/
   }
 
   render() {

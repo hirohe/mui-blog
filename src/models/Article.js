@@ -1,4 +1,6 @@
-import { articles, article, articleComments, likeArticle, dislikeArticle } from '../services/Blog';
+import { articles, queryArticles, article, articleComments, likeArticle, dislikeArticle } from '../services/Blog';
+
+const articleListRegex = /^\/$/
 
 export default {
 
@@ -16,10 +18,40 @@ export default {
     like: false,
   },
 
+  subscribes: {
+    setup({ history, dispatch }) {
+      history.listen(({ pathname }) => {
+        if (pathname === '') {
+
+        }
+      })
+    }
+  },
+
   effects: {
     *getArticles({payload}, {put, call, select}) {
       yield put({type: 'index/startLoading'});
       const { data, error } = yield call(articles, payload.page);
+      if (data) {
+        yield put({
+          type: 'getArticlesSuccess',
+          payload: {
+            articles: data.articles,
+            current: data.page,
+            total: data.total,
+            pageSize: data.pageSize
+          }
+        })
+      } else if (error) {
+        yield put({type: 'index/endLoading'});
+        throw error
+      }
+      yield put({type: 'index/endLoading'});
+    },
+    *queryArticles({payload}, {put, call, select}) {
+      const { fields, sort, order, exclude } = payload;
+      yield put({type: 'index/startLoading'});
+      const { data, error } = yield call(queryArticles, fields, sort, order, exclude);
       if (data) {
         yield put({
           type: 'getArticlesSuccess',

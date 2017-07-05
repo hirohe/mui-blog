@@ -71,7 +71,7 @@ class ArticleCard extends React.Component {
   render() {
 
     const { id, title, sub_title, author, created_at, cover_url, preview, labels, likes } = this.props.article;
-    const labelList = labels.split(',');
+    const labelList = labels?labels.split(','):[];
     const colors = randomMDColors(labelList.length);
 
     const createdDate = new Date(created_at);
