@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 import Chip from 'material-ui/Chip';
@@ -87,10 +88,7 @@ class ArticlePage extends React.Component {
   };
 
   onLabelSelect = (label) => {
-    this.dispatch({
-      type: 'article/queryArticles',
-      payload: { fields: { labels: label }, exclude: 'content' }
-    })
+    this.dispatch(routerRedux.push('/articles/page/1?labels='+label))
   };
 
   render() {
@@ -99,7 +97,7 @@ class ArticlePage extends React.Component {
     const { comment } = this.props;
 
     const labelList = article.labels?article.labels.split(','):[];
-    const colors = randomMDColors(labelList.length);
+    if (labelList.length > 0 && !this.colors) this.colors = randomMDColors(labelList.length);
 
     const createDate = new Date(article.created_at);
 
@@ -114,7 +112,7 @@ class ArticlePage extends React.Component {
                 labelList.length > 0?(
                   <div className={styles.labels}>
                     {
-                      labelList.map((label, i) => <Chip style={{marginRight: 10}} backgroundColor={colors[i]} onTouchTap={()=>{this.onLabelSelect(label)}} key={i}>{label}</Chip>)
+                      labelList.map((label, i) => <Chip style={{marginRight: 10}} backgroundColor={this.colors[i]} onTouchTap={()=>{this.onLabelSelect(label)}} key={i}>{label}</Chip>)
                     }
                   </div>
                 ):null

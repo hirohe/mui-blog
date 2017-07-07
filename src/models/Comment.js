@@ -14,6 +14,7 @@ export default {
     sending: false,
 
     comments: [],
+    loading: false,
     total: null,
     current: 1,
     pageSize: 10,
@@ -22,6 +23,7 @@ export default {
   effects: {
     *getComments({payload}, {put, call, select}) {
       const { id, page, pageSize } = payload;
+      yield put({type: 'startLoading'});
       const { data } = yield call(articleComments, id, page, pageSize);
       if (data) {
         const { comments, total, page, pageSize } = data;
@@ -35,10 +37,12 @@ export default {
           }
         });
       }
+      yield put({type: 'endLoading'});
     },
     *sendComment({payload}, {put, call, select}) {
       const { name, email, comment, referenceId } = yield select(state => state.comment);
       yield put({type: 'startSending'});
+      yield put({type: 'index/startLoading'});
       const { data } = yield call(sendComment, payload.id, { name, email, comment, referenceId });
       if (data) {
         if (data.success) {
@@ -58,6 +62,7 @@ export default {
         }
       }
       yield put({type: 'endSending'});
+      yield put({type: 'index/endLoading'});
     }
   },
 
@@ -94,6 +99,12 @@ export default {
     },
     endSending(state) {
       return { ...state, sending: false }
+    },
+    startLoading(state) {
+      return { ...state, loading: true }
+    },
+    endLoading(state) {
+      return { ...state, loading: false }
     }
   }
 

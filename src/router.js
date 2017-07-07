@@ -9,9 +9,9 @@ function RouterConfig({ history }) {
   return (
     <Router history={history}>
       <Route path="/" component={IndexPage}>
-        <Route path="/articles/page/:page" component={ArticleListPage}/>
-        <Route path="/article/:id" component={ArticlePage} />
-        <Route path="/about" component={AboutPage} />
+        <Route path="/articles/page/:page" title="文章列表" component={ArticleListPage}/>
+        <Route path="/article/:id" title="文章" component={ArticlePage} />
+        <Route path="/about" title="关于" component={AboutPage} />
       </Route>
     </Router>
   );

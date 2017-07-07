@@ -9,7 +9,12 @@ class AboutPage extends React.Component {
   render() {
     return (
       <div>
-        About
+        <div className="introduce">
+
+        </div>
+        <div className="foot">
+          hesreg@hotmail.com
+        </div>
       </div>
     )
   }

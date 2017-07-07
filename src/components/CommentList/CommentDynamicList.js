@@ -5,6 +5,7 @@ import { List } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import FlatButton from 'material-ui/FlatButton';
 import CommentItem from './CommentItem';
+import CircularProgress from 'material-ui/CircularProgress';
 
 import styles from './CommentList.less';
 
@@ -47,28 +48,40 @@ class CommentDynamicList extends React.Component {
   };
 
   referenceOnClick = (referenceId) => {
-    if (findDOMNode(this['comment_' + referenceId]))
-      findDOMNode(this['comment_' + referenceId]).scrollIntoView();
+    if (findDOMNode(this['comment_' + referenceId])) {
+      if (this.refCommentEl) {
+        this.refCommentEl.style.background = 'none';
+      }
+      this.refCommentEl = findDOMNode(this['comment_' + referenceId]);
+      this.refCommentEl.scrollIntoView();
+      this.refCommentEl.style.background = '#ffffc0'
+    }
   };
 
   render() {
 
-    const { comments, current, total, pageSize } = this.props.comment;
+    const { comments, loading, current, total, pageSize } = this.props.comment;
+
+    const _comments = comments.map((comment, i) =>
+      <CommentItem
+        ref={commentEl => this['comment_' + comment.id] = commentEl}
+        comment={comment}
+        onReply={this.onReply}
+        referenceOnClick={this.referenceOnClick}
+        key={i}
+      />
+    );
 
     return (
       <div>
         <List>
           <Subheader>Comments</Subheader>
           {
-            comments.map((comment, i) =>
-              <CommentItem
-                ref={commentEl => this['comment_' + comment.id] = commentEl}
-                comment={comment}
-                onReply={this.onReply}
-                referenceOnClick={this.referenceOnClick}
-                key={i}
-              />
-            )
+            loading?(
+              <div className={styles.loading}>
+                <CircularProgress/>
+              </div>
+            ):_comments
           }
         </List>
         <div className={styles.pagination}>

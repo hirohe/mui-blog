@@ -3,8 +3,9 @@ import qs from 'qs';
 
 const apiOrigin = 'http://localhost:7001/blog';
 
-export async function articles(page) {
-  return request(apiOrigin + '/articles/page/' + page)
+export async function articles(page, queryFields) {
+  const params = { ...queryFields };
+  return request(`${apiOrigin}/articles/page/${page}${queryFields?'?'+qs.stringify(params):''}`)
 }
 
 /* { field: value }, sort, order, exclude */

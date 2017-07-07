@@ -2,12 +2,17 @@ import React from 'react';
 import { Tweet } from 'react-twitter-widgets';
 
 const tweetIdRegex = /^tweet:(\d+)/;
+const bilibiliRegex = /^bilibili:(\d+):(\d+)/;
 
 /* render for twitter '> tweet:842211276147179520' or normal blockquote '> hello'*/
 class BlockQuote extends React.Component {
 
   constructor(props) {
     super(props)
+  }
+
+  componentDidMount() {
+
   }
 
   render() {

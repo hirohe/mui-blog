@@ -32,11 +32,13 @@ class IndexPage extends React.Component {
 
     const { snackbar, index, children } = this.props;
 
+    const title = children.props.route.title;
+
     return (
       <MuiThemeProvider>
         <div>
           <div className={commonStyle.fixedAppBar}>
-            <AppBar onLeftIconButtonTouchTap={this.openDrawer} title="Title..." />
+            <AppBar onLeftIconButtonTouchTap={this.openDrawer} title={title} />
           </div>
           <div className={styles.tabContent}>
             {children}

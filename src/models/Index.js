@@ -5,7 +5,12 @@ export default {
   namespace: 'index',
 
   state: {
-    loading: false
+    loading: false,
+    title: '',
+  },
+
+  subscriptions: {
+
   },
 
   reducers: {

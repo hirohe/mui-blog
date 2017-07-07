@@ -19,16 +19,18 @@ class ArticleList extends React.Component {
 
   prevPage = () => {
     const page = this.props.article.current - 1;
+    //this.dispatch(routerRedux.push('articles/page/' + page))
     this.dispatch({
-      type: 'article/getArticles',
+      type: 'article/changeArticlesPage',
       payload: { page }
     })
   };
 
   nextPage = () => {
     const page = this.props.article.current + 1;
+    //this.dispatch(routerRedux.push('articles/page/' + page))
     this.dispatch({
-      type: 'article/getArticles',
+      type: 'article/changeArticlesPage',
       payload: { page }
     })
   };

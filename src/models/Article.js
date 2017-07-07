@@ -1,6 +1,7 @@
 import { articles, queryArticles, article, articleComments, likeArticle, dislikeArticle } from '../services/Blog';
+import { routerRedux } from 'dva/router';
 
-const articleListRegex = /^\/$/
+const articleListRegex = /^\/articles\/page\/(\d+)/;
 
 export default {
 
@@ -18,11 +19,22 @@ export default {
     like: false,
   },
 
-  subscribes: {
+  subscriptions: {
     setup({ history, dispatch }) {
-      history.listen(({ pathname }) => {
-        if (pathname === '') {
-
+      history.listen(({ pathname, query }) => {
+        const result = articleListRegex.exec(pathname)
+        if (result) {
+          if (query.labels) {
+            dispatch({
+              type: 'getArticles',
+              payload: { page: result[1], queryFields: { labels: query.labels } }
+            })
+          } else {
+            dispatch({
+              type: 'getArticles',
+              payload: { page: result[1] }
+            })
+          }
         }
       })
     }
@@ -31,7 +43,7 @@ export default {
   effects: {
     *getArticles({payload}, {put, call, select}) {
       yield put({type: 'index/startLoading'});
-      const { data, error } = yield call(articles, payload.page);
+      const { data, error } = yield call(articles, payload.page, payload.queryFields);
       if (data) {
         yield put({
           type: 'getArticlesSuccess',
@@ -53,6 +65,7 @@ export default {
       yield put({type: 'index/startLoading'});
       const { data, error } = yield call(queryArticles, fields, sort, order, exclude);
       if (data) {
+        console.log(data);
         yield put({
           type: 'getArticlesSuccess',
           payload: {
@@ -67,6 +80,11 @@ export default {
         throw error
       }
       yield put({type: 'index/endLoading'});
+    },
+    *changeArticlesPage({payload}, {put, call, select}) {
+      const routing = yield select(state => state.routing);
+      const { search } = routing.locationBeforeTransitions;
+      yield put(routerRedux.push('articles/page/' + payload.page + search))
     },
     *getArticle({payload}, {put, call, select}) {
       const { data, error } = yield call(article, payload.id);

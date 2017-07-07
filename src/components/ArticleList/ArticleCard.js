@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import { Card, CardHeader, CardMedia, CardText, CardActions } from 'material-ui/Card';
 import Chip from 'material-ui/Chip';
 import IconButton from 'material-ui/IconButton';
@@ -26,6 +27,10 @@ class ArticleCard extends React.Component {
   }
 
   componentDidMount() {
+
+  }
+
+  componentWillUpdate(nextProps, nextState) {
 
   }
 
@@ -65,14 +70,14 @@ class ArticleCard extends React.Component {
   };
 
   onLabelSelect =(label) => {
-    console.log(label)
+    this.dispatch(routerRedux.push('/articles/page/1?labels='+label))
   };
 
   render() {
 
     const { id, title, sub_title, author, created_at, cover_url, preview, labels, likes } = this.props.article;
     const labelList = labels?labels.split(','):[];
-    const colors = randomMDColors(labelList.length);
+    if (labelList.length > 0 && !this.colors) this.colors = randomMDColors(labelList.length);
 
     const createdDate = new Date(created_at);
 
@@ -99,7 +104,7 @@ class ArticleCard extends React.Component {
           labelList.length > 0?(
             <div className={styles.labels}>
               {
-                labelList.map((label, i) => <Chip style={{marginRight: 10}} backgroundColor={colors[i]} onTouchTap={()=>{this.onLabelSelect(label)}} key={i}>{label}</Chip>)
+                labelList.map((label, i) => <Chip style={{marginRight: 10}} backgroundColor={this.colors[i]} onTouchTap={()=>{this.onLabelSelect(label)}} key={i}>{label}</Chip>)
               }
             </div>
           ):null
