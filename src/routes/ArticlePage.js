@@ -106,6 +106,7 @@ class ArticlePage extends React.Component {
         <div>
           <div className={styles.articleContent} style={{ height: window.innerHeight - 64 }}>
             <Paper className={styles.paper}>
+              <div className={styles.title}>{article.title}</div>
               <ArticleMarkdown content={article.content}/>
               {/*labels*/}
               {

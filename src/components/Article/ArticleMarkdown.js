@@ -12,9 +12,6 @@ const Article = ({ content, htmlMode }) => {
 
   return (
     <div className={styles.article}>
-      <div className={styles.header}>
-        Title
-      </div>
       <div className={styles.content}>
         <ReactMarkdown
           source={content}
